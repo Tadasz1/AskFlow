@@ -1,3 +1,7 @@
+/**
+ * Question detail page: shows one question, its answers, and lets logged-in users
+ * post answers, vote (up/down), and delete their own answers.
+ */
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -13,6 +17,7 @@ export default function QuestionDetailPage() {
   const [answerText, setAnswerText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Load question and answers in parallel; use authFetch for answers if logged in (to get userVote).
   const loadQuestionAndAnswers = useCallback(async () => {
     if (!id) return;
     setLoading(true);
@@ -47,6 +52,7 @@ export default function QuestionDetailPage() {
     loadQuestionAndAnswers();
   }, [loadQuestionAndAnswers]);
 
+  // POST new answer, clear input, then reload list.
   const handleSubmitAnswer = async (e) => {
     e.preventDefault();
     if (!answerText.trim()) return;
@@ -66,6 +72,7 @@ export default function QuestionDetailPage() {
     }
   };
 
+  // DELETE answer (owner only); confirm first, then remove from state.
   const handleDeleteAnswer = async (answerId) => {
     if (!window.confirm('Delete this answer?')) return;
     setError('');
@@ -79,6 +86,7 @@ export default function QuestionDetailPage() {
     }
   };
 
+  // POST vote (1 = upvote, -1 = downvote); update answer's vote count and userVote in state.
   const handleVote = async (answerId, value) => {
     if (!user) return;
     setError('');

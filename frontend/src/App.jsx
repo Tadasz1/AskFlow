@@ -1,3 +1,4 @@
+// Root component: auth context, routes, header and footer layout.
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import QuestionsPage from './pages/QuestionsPage';
@@ -7,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import logo from './assets/logo.svg';
 import './App.css';
 
+// Layout: header (logo, nav), main content (routes), footer.
 function AppLayout() {
   const { user, logout } = useAuth();
 
@@ -71,6 +73,7 @@ function AppLayout() {
   );
 }
 
+// Wraps the app with auth (AuthProvider) and routing (BrowserRouter).
 export default function App() {
   return (
     <AuthProvider>

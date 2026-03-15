@@ -1,3 +1,6 @@
+/**
+ * Answer controller: list answers for a question, create, delete, vote (up/down).
+ */
 const { body, validationResult } = require('express-validator');
 const Answer = require('../models/Answer');
 const Question = require('../models/Question');
@@ -6,6 +9,7 @@ const createAnswerValidators = [
   body('answer_text').trim().notEmpty().withMessage('Answer text is required'),
 ];
 
+// List answers for question id; if user is logged in (optionalAuth), include userVote per answer.
 async function listAnswers(req, res) {
   const { id } = req.params;
   const userId = req.user && req.user._id ? req.user._id.toString() : null;
@@ -41,6 +45,7 @@ async function listAnswers(req, res) {
   }
 }
 
+// Create answer for question (auth required).
 async function createAnswer(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -69,6 +74,7 @@ async function createAnswer(req, res) {
   }
 }
 
+// Delete answer (owner only).
 async function deleteAnswer(req, res) {
   const { id } = req.params;
 
@@ -87,6 +93,7 @@ async function deleteAnswer(req, res) {
   }
 }
 
+// Toggle or set vote: value 1 = upvote, -1 = downvote. Same value again removes vote.
 async function voteAnswer(req, res) {
   const { id } = req.params;
   const { value } = req.body;

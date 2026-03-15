@@ -1,3 +1,6 @@
+/**
+ * Login page: email + password form. On success, redirects to home.
+ */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -10,6 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Validate, call login from context, then redirect to / on success.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

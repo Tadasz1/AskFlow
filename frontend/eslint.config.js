@@ -1,3 +1,6 @@
+/**
+ * ESLint config: JS recommended, React Hooks, React Refresh (Vite). Lints all .js/.jsx except dist.
+ */
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'

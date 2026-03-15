@@ -1,3 +1,7 @@
+/**
+ * Register page: name, email, password, confirm password. Validates then calls
+ * register from context (which logs in after success) and redirects to home.
+ */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -12,6 +16,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Client-side validation, then register; on success redirect to /.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

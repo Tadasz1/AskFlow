@@ -1,5 +1,10 @@
+/**
+ * Answer model: answer_text, question (ref Question), user (ref User), date, votes array.
+ * Each vote has user and value (1 or -1). Virtual gained_likes_number sums vote values.
+ */
 const mongoose = require('mongoose');
 
+// Embedded schema for one vote (user + 1 or -1).
 const voteSchema = new mongoose.Schema(
   {
     user: {
@@ -45,6 +50,7 @@ const answerSchema = new mongoose.Schema(
 answerSchema.index({ question: 1, createdAt: -1 });
 answerSchema.index({ user: 1 });
 
+// Sum of all vote values for this answer (computed in controller too for list response).
 answerSchema.virtual('gained_likes_number').get(function gainedLikesNumber() {
   if (!this.votes || this.votes.length === 0) return 0;
   return this.votes.reduce((sum, v) => sum + v.value, 0);

@@ -1,3 +1,7 @@
+/**
+ * Questions list page: loads questions (all/answered/unanswered), shows stats,
+ * and lets logged-in users create or delete their own questions.
+ */
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
@@ -5,12 +9,13 @@ import { useAuth } from '../auth/AuthContext';
 export default function QuestionsPage() {
   const { user, authFetch, API_BASE } = useAuth();
   const [questions, setQuestions] = useState([]);
-  const [status, setStatus] = useState('all');
+  const [status, setStatus] = useState('all'); // 'all' | 'answered' | 'unanswered'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [newQuestion, setNewQuestion] = useState('');
   const [creating, setCreating] = useState(false);
 
+  /** Fetches questions from API, optionally filtered by status. */
   const loadQuestions = useCallback(async (nextStatus = 'all') => {
     setLoading(true);
     setError('');
@@ -33,11 +38,13 @@ export default function QuestionsPage() {
     loadQuestions();
   }, [loadQuestions]);
 
+  /** Switch filter and reload questions for that filter. */
   const handleFilterChange = (value) => {
     setStatus(value);
     loadQuestions(value);
   };
 
+  /** POST new question (auth required); then clear input and refresh list. */
   const handleCreateQuestion = async (e) => {
     e.preventDefault();
     if (!newQuestion.trim()) return;
@@ -57,6 +64,7 @@ export default function QuestionsPage() {
     }
   };
 
+  /** DELETE question (owner only); confirm first, then remove from list. */
   const handleDeleteQuestion = async (id) => {
     if (!window.confirm('Delete this question and all its answers?')) return;
     setError('');
@@ -70,6 +78,7 @@ export default function QuestionsPage() {
     }
   };
 
+  // Derived counts for the stats bar (client-side from current list).
   const totalCount = questions.length;
   const answeredCount = questions.filter((q) => (q.answersCount || 0) > 0).length;
   const unansweredCount = totalCount - answeredCount;

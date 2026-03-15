@@ -1,3 +1,7 @@
+/**
+ * Optional auth: if Authorization: Bearer <token> is present and valid, sets req.user; otherwise req.user = null.
+ * Used on GET /question/:id/answers so we can return userVote when logged in.
+ */
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 

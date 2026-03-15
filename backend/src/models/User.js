@@ -1,3 +1,6 @@
+/**
+ * User model: name, email (unique), passwordHash. Method comparePassword for login.
+ */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -23,6 +26,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Used by login to check plain password against stored hash.
 userSchema.methods.comparePassword = function comparePassword(password) {
   return bcrypt.compare(password, this.passwordHash);
 };

@@ -1,3 +1,11 @@
+/*
+  index.css - Global styles for AskFlow
+  Contains: design tokens (colors, radius, shadows), reset, typography,
+  app layout (header, main, footer), pages, cards, forms, buttons,
+  question/answer lists, auth pages, and small-screen overrides.
+*/
+/* ========== GLOBAL DESIGN TOKENS ========== */
+/* CSS variables used across the app for colors, radius, shadows */
 :root {
   --bg: #fdfdfd;
   --bg-elevated: #ffffff;
@@ -22,6 +30,7 @@
   --shadow-subtle: 0 14px 40px rgba(148, 163, 184, 0.3);
 }
 
+/* ========== RESET & BASE ========== */
 *,
 *::before,
 *::after {
@@ -37,12 +46,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Full height so layout can use flex and fill the viewport */
 html,
 body,
 #root {
   height: 100%;
 }
 
+/* ========== TYPOGRAPHY ========== */
 h1 {
   margin: 0;
   font-weight: 700;
@@ -82,12 +93,15 @@ button {
   font-family: inherit;
 }
 
+/* ========== APP LAYOUT ========== */
+/* Main wrapper: flex column so header, main, footer stack vertically */
 .app-root {
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* Top bar: logo on left, nav (login/logout) on right */
 .app-header {
   display: flex;
   align-items: center;
@@ -193,6 +207,7 @@ button {
   justify-content: center;
 }
 
+/* Main content area: where page content and routes render */
 .app-main {
   padding: 16px 12px 24px;
   display: flex;
@@ -219,6 +234,7 @@ button {
   }
 }
 
+/* Bottom bar: brand and tech stack; margin-top auto pushes it to bottom */
 .app-footer {
   width: 100%;
   padding: 14px 20px;
@@ -270,6 +286,7 @@ button {
 }
 
 
+/* ========== PAGE & FILTERS ========== */
 .page {
   display: flex;
   flex-direction: column;
@@ -297,6 +314,7 @@ button {
   line-height: 1.45;
 }
 
+/* Filter chips: All / Answered / Unanswered */
 .filter-group {
   display: flex;
   flex-wrap: wrap;
@@ -336,6 +354,8 @@ button {
   color: #fff;
 }
 
+/* ========== CARDS & LAYOUT ========== */
+/* Reusable card style for question blocks, side panels, forms */
 .card {
   background: #fff;
   border-radius: 14px;
@@ -371,6 +391,7 @@ button {
   margin-bottom: 10px;
 }
 
+/* Two-column layout: main content + sidebar (stacked on mobile, side-by-side on desktop) */
 .layout-2col {
   display: flex;
   flex-direction: column;
@@ -422,6 +443,7 @@ button {
   gap: 4px;
 }
 
+/* Stats bar: Total / Answered / Unanswered counts */
 .stats-bar {
   display: flex;
   gap: 10px;
@@ -458,6 +480,7 @@ button {
   color: #111827;
 }
 
+/* ========== FORMS & INPUTS ========== */
 .form {
   display: flex;
   flex-direction: column;
@@ -499,6 +522,8 @@ textarea {
   min-height: 80px;
 }
 
+/* ========== BUTTONS ========== */
+/* Primary: blue CTA; secondary: outline; btn-link-danger: red text for delete */
 .btn-primary {
   border-radius: 10px;
   border: none;
@@ -552,6 +577,7 @@ textarea {
   width: 100%;
 }
 
+/* ========== QUESTION LIST ========== */
 .question-list {
   list-style: none;
   margin: 0;
@@ -646,6 +672,7 @@ textarea {
   color: var(--text-muted);
 }
 
+/* Back link on question detail page */
 .back-link {
   border: none;
   background: transparent;
@@ -680,6 +707,7 @@ textarea {
   }
 }
 
+/* ========== ANSWERS ========== */
 .answers-section {
   display: flex;
   flex-direction: column;
@@ -780,6 +808,7 @@ textarea {
   box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
 }
 
+/* ========== ALERTS & EMPTY STATES ========== */
 .alert {
   border-radius: var(--radius-md);
   padding: 10px 12px;
@@ -798,6 +827,7 @@ textarea {
   color: var(--text-muted);
 }
 
+/* ========== AUTH PAGES (LOGIN / REGISTER) ========== */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -849,7 +879,8 @@ textarea {
   color: var(--text-muted);
 }
 
-/* Prevent horizontal overflow on very small screens */
+/* ========== SMALL SCREEN ADJUSTMENTS ========== */
+/* Prevent horizontal overflow and shrink logo on very small screens */
 @media (max-width: 380px) {
   .app-header-left {
     gap: 8px;

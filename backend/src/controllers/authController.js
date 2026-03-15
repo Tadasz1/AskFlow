@@ -1,8 +1,12 @@
+/**
+ * Auth controller: register and login. Uses bcrypt for passwords, JWT for tokens.
+ */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 
+// Validation rules for register (name, email, password)
 const registerValidators = [
   body('name')
     .trim()
@@ -12,6 +16,7 @@ const registerValidators = [
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
 ];
 
+// Create user: validate, check email not taken, hash password, save. Returns user (no token; frontend logs in after).
 async function register(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -39,11 +44,13 @@ async function register(req, res) {
   }
 }
 
+// Validation rules for login (email, password)
 const loginValidators = [
   body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
   body('password').notEmpty().withMessage('Password is required'),
 ];
 
+// Find user, compare password, issue JWT; return token and user info.
 async function login(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

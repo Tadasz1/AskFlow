@@ -1,3 +1,7 @@
+/**
+ * Auth middleware: requires Authorization: Bearer <token>. Verifies JWT and loads user into req.user.
+ * Use on routes that require login (create question/answer, delete, vote).
+ */
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 

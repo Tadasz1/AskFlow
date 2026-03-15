@@ -1,3 +1,4 @@
+// Auth for the whole app: current user, token, login/register/logout and authFetch.
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(null);
@@ -9,6 +10,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Restore user/token from localStorage on mount (e.g. after refresh).
   useEffect(() => {
     const stored = window.localStorage.getItem('forum_auth');
     if (stored) {
@@ -23,18 +25,21 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  /** Persist auth to state and localStorage. */
   const saveAuth = (data) => {
     setUser(data.user);
     setToken(data.token);
     window.localStorage.setItem('forum_auth', JSON.stringify(data));
   };
 
+  /** Clear user, token, and localStorage. */
   const clearAuth = () => {
     setUser(null);
     setToken(null);
     window.localStorage.removeItem('forum_auth');
   };
 
+  /** POST /login; on success saves token and user via saveAuth. */
   const login = async (email, password) => {
     const res = await fetch(`${API_BASE}/login`, {
       method: 'POST',
@@ -48,6 +53,7 @@ export function AuthProvider({ children }) {
     saveAuth(data);
   };
 
+  /** POST /register; on success auto-logs in by calling login. */
   const register = async (name, email, password) => {
     const res = await fetch(`${API_BASE}/register`, {
       method: 'POST',
@@ -69,6 +75,7 @@ export function AuthProvider({ children }) {
     clearAuth();
   };
 
+  /** fetch() wrapper that adds Authorization: Bearer <token> and parses JSON; throws on non-ok. */
   const authFetch = async (url, options = {}) => {
     const headers = {
       'Content-Type': 'application/json',
@@ -103,6 +110,7 @@ export function AuthProvider({ children }) {
   );
 }
 
+/** Hook to access auth context (user, token, loading, login, register, logout, authFetch, API_BASE). */
 export function useAuth() {
   return useContext(AuthContext);
 }

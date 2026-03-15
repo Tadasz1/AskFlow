@@ -1,3 +1,7 @@
+/**
+ * Backend entry point. Express app with CORS, JSON body parsing, and API routes.
+ * Connects to MongoDB then starts listening on PORT.
+ */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,10 +18,12 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
+// Health check / root
 app.get('/', (req, res) => {
   res.json({ message: 'Forum API running' });
 });
 
+// Mount API routes under /api
 app.use('/api', authRoutes);
 app.use('/api', questionRoutes);
 app.use('/api', answerRoutes);

@@ -1,3 +1,6 @@
+/**
+ * Question controller: create, delete, get one, list all (with optional status filter).
+ */
 const { body, validationResult, query } = require('express-validator');
 const Question = require('../models/Question');
 const Answer = require('../models/Answer');
@@ -10,6 +13,7 @@ const listQuestionsValidators = [
   query('status').optional().isIn(['answered', 'unanswered']).withMessage('Invalid status filter'),
 ];
 
+// Create question (auth required; user from req.user).
 async function createQuestion(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -29,6 +33,7 @@ async function createQuestion(req, res) {
   }
 }
 
+// Delete question (owner only); also deletes all answers for that question.
 async function deleteQuestion(req, res) {
   const { id } = req.params;
   try {
@@ -47,6 +52,7 @@ async function deleteQuestion(req, res) {
   }
 }
 
+// Get single question by id with populated user and answersCount.
 async function getQuestion(req, res) {
   const { id } = req.params;
   try {
@@ -63,6 +69,7 @@ async function getQuestion(req, res) {
   }
 }
 
+// List all questions; add answersCount per question; filter by status (answered/unanswered) if given.
 async function listQuestions(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

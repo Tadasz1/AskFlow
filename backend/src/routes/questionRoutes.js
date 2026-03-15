@@ -1,3 +1,7 @@
+/**
+ * Question routes under /api: list (GET /questions), get one (GET /question/:id),
+ * create (POST /question, auth), delete (DELETE /question/:id, auth).
+ */
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const {

@@ -1,3 +1,7 @@
+/**
+ * Answer routes under /api: list (GET /question/:id/answers, optionalAuth),
+ * create (POST /question/:id/answers, auth), delete (DELETE /answer/:id, auth), vote (POST /answer/:id/vote, auth).
+ */
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const optionalAuth = require('../middleware/optionalAuth');

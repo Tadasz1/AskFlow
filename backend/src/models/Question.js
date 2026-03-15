@@ -1,3 +1,6 @@
+/**
+ * Question model: question_text, user (ref User), date. Indexes for listing by date and by user.
+ */
 const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema(
@@ -23,6 +26,7 @@ const questionSchema = new mongoose.Schema(
 questionSchema.index({ createdAt: -1 });
 questionSchema.index({ user: 1 });
 
+// Virtual: count of answers (used when populating; we also compute in controller).
 questionSchema.virtual('answersCount', {
   ref: 'Answer',
   localField: '_id',
